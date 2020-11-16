@@ -4,15 +4,22 @@ using UnityEngine;
 
 public class turn : MonoBehaviour
 {
-    // Start is called before the first frame update
+    Camera cam;
     void Start()
     {
-        
+        cam = Camera.main;
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        transform.Rotate(Vector3.up, Input.GetAxis("Mouse X"), Space.World);
-    }
+    void FixedUpdate()
+    {   
+        float hitdist = 0.0f;
+        Ray ray = cam.ScreenPointToRay (Input.mousePosition);
+        RaycastHit hit = new RaycastHit();
+        if (Input.GetMouseButton(0)){
+            if (Physics.Raycast (ray, out hit))
+            {
+            Vector3 rot = transform.eulerAngles;
+            transform.LookAt(hit.point);
+            transform.eulerAngles = new Vector3(rot.x, transform.eulerAngles.y, rot.z);
+            }
 }
+}}
